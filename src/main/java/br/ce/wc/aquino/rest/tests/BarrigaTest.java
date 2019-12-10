@@ -125,7 +125,20 @@ public class BarrigaTest extends BaseTest{
 			.body("msg", hasItem("Data da Movimentação deve ser menor ou igual à data atual"))
 			;
 	}
+	
+	@Test
+	public void naoDeveRemoverContaComMovimentacao() {
+		given()
+			.header("Authorization", "JWT " + TOKEN)
+		.when()
+			.delete("/contas/46139")
+		.then()
+			.statusCode(400)
+			;
+	}
 
+	
+	
 private Movimentacao getMovimentacaoValida() {
 	Movimentacao mov = new Movimentacao();
 	mov.setConta_id(46139);

@@ -133,10 +133,22 @@ public class BarrigaTest extends BaseTest{
 		.when()
 			.delete("/contas/46139")
 		.then()
-			.statusCode(400)
+			.statusCode(500)
+			.body("constraint", is("transacoes_conta_id_foreign"))
 			;
 	}
-
+	
+	@Test
+	public void deveCalcularSaldoContas() {
+		given()
+			.header("Authorization", "JWT " + TOKEN)
+		.when()
+			.get("/saldo")
+		.then()
+			.statusCode(200)
+			.body("find{it.conta_id == 46139}.saldo", is("100.00"))
+			;
+	}
 	
 	
 private Movimentacao getMovimentacaoValida() {
